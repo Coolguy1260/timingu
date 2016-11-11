@@ -37,6 +37,7 @@ int Menu_Main(void) {
 					time = time + 1;
 				}
 				ucls();
+				time = 0;
 				OSScreenPutFontEx(1, 0, 0,"Press A!");
 				flipBuffers();
 				if(cheater == 0) {
