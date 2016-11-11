@@ -5,6 +5,7 @@ int Menu_Main(void) {
 	int time = 0;
 	int timeup = 0;
 	int timeneeded = 500;
+	int cheater = 0;
 	OSScreenPutFontEx(1, 0, 0, "Welcome to TimingU!");
 	OSScreenPutFontEx(1, 0, 1,"(by Coolguy1260 :) )");
 	flipBuffers();
@@ -14,15 +15,32 @@ int Menu_Main(void) {
 		updatePressedButtons(); //Update buttons state
 		if(isPressed(VPAD_BUTTON_A)) 
 		{
+			usleep(1000 * 1000);
 			while(timeup == 0) {
 				ucls();
 				OSScreenPutFontEx(1, 0, 0,"Ready...");
 				flipBuffers();
-				usleep(3000 * 1000);
+				while(timeup == 0) {
+					updatePressedButtons();
+					if(isPressed(VPAD_BUTTON_A)) {
+						cheater = 1;
+						ucls();
+						OSScreenPutFontEx(1, 0, 0,"You pressed A too early! Auto-lose!");
+						flipBuffers();
+						usleep(3000 * 1000);
+						break;
+					}
+					if(time == 3000) {
+						timeup = 1;
+					}
+					usleep(1 * 1000);
+					time = time + 1;
+				}
 				ucls();
 				OSScreenPutFontEx(1, 0, 0,"Press A!");
 				flipBuffers();
-				while(timeup == 0) {
+				if(cheater == 0) {
+					while(timeup == 0) {
 					updatePressedButtons();
 					if(isPressed(VPAD_BUTTON_A)) {
 						isgamewon = 1;
@@ -33,6 +51,7 @@ int Menu_Main(void) {
 					}
 					usleep(1 * 1000);
 					time = time + 1;
+					}
 				}
 				ucls();
 				if(isgamewon == 1) {
