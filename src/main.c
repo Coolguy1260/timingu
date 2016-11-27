@@ -20,24 +20,16 @@ int Menu_Main(void) {
 				ucls();
 				OSScreenPutFontEx(1, 0, 0,"Ready...");
 				flipBuffers();
-				while(timeup == 0) {
-					updatePressedButtons();
-					if(isPressed(VPAD_BUTTON_A)) {
-						cheater = 1;
-						ucls();
-						OSScreenPutFontEx(1, 0, 0,"You pressed A too early! Auto-lose!");
-						flipBuffers();
-						usleep(3000 * 1000);
-						break;
-					}
-					if(time == 3000) {
-						timeup = 1;
-					}
-					usleep(1 * 1000);
-					time = time + 1;
+				usleep(3000 * 1000);
+				updatePressedButtons();
+				if(isPressed(VPAD_BUTTON_A)) {
+					cheater = 1;
+					ucls();
+					OSScreenPutFontEx(1, 0, 0,"You cheated!");
+					flipBuffers();
+					usleep(1000 * 1000);
+					ucls();
 				}
-				ucls();
-				time = 0;
 				OSScreenPutFontEx(1, 0, 0,"Press A!");
 				flipBuffers();
 				if(cheater == 0) {
@@ -67,6 +59,7 @@ int Menu_Main(void) {
 				usleep(3000 * 1000);
 				isgamewon = 0;
 				time = 0;
+				cheater = 0;
 			}
 			timeup = 0;
 			timeneeded = 500;
